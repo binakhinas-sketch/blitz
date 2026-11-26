@@ -1,0 +1,48 @@
+name: IPA bauen
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 30
+    steps:
+      - name: Code holen
+        uses: actions/checkout@v4
+
+      - name: XcodeGen installieren
+        run: brew install xcodegen
+
+      - name: Xcode-Projekt erzeugen
+        run: xcodegen generate
+
+      - name: App bauen (unsigniert)
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project Blitz.xcodeproj \
+            -target Blitz \
+            -configuration Release \
+            -sdk iphoneos \
+            SYMROOT="$PWD/build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            build
+
+      - name: IPA packen
+        run: |
+          rm -rf Payload Blitz.ipa
+          mkdir Payload
+          cp -R build/Release-iphoneos/Blitz.app Payload/
+          zip -qry Blitz.ipa Payload
+          ls -lh Blitz.ipa
+
+      - name: IPA hochladen
+        uses: actions/upload-artifact@v4
+        with:
+          name: Blitz-ipa
+          path: Blitz.ipa
