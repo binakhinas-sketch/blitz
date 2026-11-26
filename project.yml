@@ -1,0 +1,38 @@
+name: Blitz
+options:
+  bundleIdPrefix: com.blitzapp
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Blitz:
+    type: application
+    platform: iOS
+    sources:
+      - path: Blitz
+    info:
+      path: Blitz/Info.plist
+      properties:
+        CFBundleDisplayName: Blitz
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UIStatusBarStyle: UIStatusBarStyleLightContent
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        NSCameraUsageDescription: "Blitz braucht die Kamera, damit du Snaps aufnehmen kannst."
+        NSPhotoLibraryUsageDescription: "Blitz braucht Zugriff auf deine Fotos, damit du Bilder als Snap verschicken kannst."
+        NSPhotoLibraryAddUsageDescription: "Blitz speichert deine Snaps in deiner Fotomediathek."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.blitzapp.blitz
+        PRODUCT_NAME: Blitz
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        ENABLE_BITCODE: NO
